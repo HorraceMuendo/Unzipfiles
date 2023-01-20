@@ -16,7 +16,10 @@ var rootCmd = &cobra.Command{
 	Use:     "unzipFiles",
 	Short:   "An application that helps users unzip files",
 	Version: version,
-	Long:    `Unzip files is an application that is solely built to help users unzip files `,
+	CompletionOptions: cobra.CompletionOptions{
+		DisableDefaultCmd: true,
+	},
+	Long: `Unzip files is an application that is solely built to help users unzip files `,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -40,5 +43,5 @@ func init() {
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
