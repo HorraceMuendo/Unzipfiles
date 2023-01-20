@@ -3,7 +3,9 @@ package util
 import (
 	"archive/zip"
 	"fmt"
+	"os"
 	"path/filepath"
+	"strings"
 )
 
 func unzipSrc(source, destination string) error {
@@ -29,4 +31,19 @@ func unzipSrc(source, destination string) error {
 	}
 	return nil
 
+}
+
+func unzipFile(f *zip.File, destination string) {
+	filepath := filepath.Join(destination, f.Name)
+
+	if !strings.HasPrefix(filepath, filepath.Clean(destination)+string(os.PathListSeparator)) {
+		return fmt.Errorf("invalid file path: %s", filepath)
+	}
+
+	if f.FileInfo().IsDir() {
+		if err := os.MkdirAll(filepath, os.ModePerm); err != nil {
+			return err
+		}
+		return nil
+	}
 }
