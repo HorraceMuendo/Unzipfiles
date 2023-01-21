@@ -7,7 +7,6 @@ import (
 	"archive/zip"
 	"fmt"
 	"os"
-	util "unzipFiles/Util"
 
 	"github.com/spf13/cobra"
 )
@@ -23,7 +22,7 @@ var unzipCmd = &cobra.Command{
 		if err != nil {
 			fmt.Println(err.Error())
 		}
-		util.UnzipFile(&zip.File{}, wd)
+		util.unzipFiles(&zip.File{}, wd)
 	},
 }
 
