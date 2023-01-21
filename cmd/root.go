@@ -16,15 +16,17 @@ var version = "1.0.0"
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:     "unzipFiles",
-	Short:   "An application that helps users unzip files",
-	Version: version,
+	Use:                   "unzipFiles <zip_file_name/location>",
+	DisableFlagsInUseLine: true,
+	Short:                 "An application that helps users unzip files",
+	Version:               version,
 	CompletionOptions: cobra.CompletionOptions{
 		DisableDefaultCmd: true,
 	},
 	Long: `Unzip files is an application that is solely built to help users unzip files `,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
+	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		var fileName string
 		var err error
