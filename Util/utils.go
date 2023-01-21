@@ -4,7 +4,6 @@ import (
 	"archive/zip"
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -74,9 +73,13 @@ func unzipFile(f *zip.File, destination string) error {
 	return nil
 }
 
-func main() {
-	err := unzipSource("testFolder.zip", "")
-	if err != nil {
-		log.Fatal(err)
+func FileExists(path string) (bool, error) {
+	_, err := os.Stat(path)
+	if err == nil {
+		return true, nil
 	}
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	return false, err
 }

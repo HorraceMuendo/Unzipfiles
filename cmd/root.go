@@ -4,7 +4,9 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
 	"os"
+	util "unzipFiles/Util"
 
 	"github.com/spf13/cobra"
 )
@@ -22,7 +24,20 @@ var rootCmd = &cobra.Command{
 	Long: `Unzip files is an application that is solely built to help users unzip files `,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+	Run: func(cmd *cobra.Command, args []string) {
+		var fileName string
+		var err error
+		var argument string
+
+		argument = args[0]
+
+		fileExists, err := util.FileExists
+
+		wd, err := os.Getwd()
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
