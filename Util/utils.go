@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 )
 
-func unzipSource(source, destination string) error {
+func UnzipSource(source, destination string) error {
 	// 1. Open the zip file
 	reader, err := zip.OpenReader(source)
 	if err != nil {
@@ -25,7 +26,7 @@ func unzipSource(source, destination string) error {
 
 	// 3. Iterate over zip files inside the archive and unzip each of them
 	for _, f := range reader.File {
-		err := unzipFile(f, destination)
+		err := UnzipFile(f, destination)
 		if err != nil {
 			return err
 		}
@@ -34,7 +35,7 @@ func unzipSource(source, destination string) error {
 	return nil
 }
 
-func unzipFile(f *zip.File, destination string) error {
+func UnzipFile(f *zip.File, destination string) error {
 	// 4. Check if file paths are not vulnerable to Zip Slip
 	filePath := filepath.Join(destination, f.Name)
 	if !strings.HasPrefix(filePath, filepath.Clean(destination)+string(os.PathSeparator)) {
@@ -82,4 +83,8 @@ func FileExists(path string) (bool, error) {
 		return false, nil
 	}
 	return false, err
+}
+
+func FileNameWithoutExtension(fn string) string {
+	return strings.TrimSuffix(fn, path.Ext(fn))
 }

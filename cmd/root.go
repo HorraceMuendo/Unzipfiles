@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	util "unzipFiles/Util"
 
 	"github.com/spf13/cobra"
@@ -28,12 +29,32 @@ var rootCmd = &cobra.Command{
 		var fileName string
 		var err error
 		var argument string
-
+		//take the first argument passed and store it in argument
 		argument = args[0]
-
-		fileExists, err := util.FileExists
-
+		//check whether the file exists
+		fileExists, err := util.FileExists(argument)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		if fileExists {
+			fileName, err = filepath.Abs(argument)
+			if err != nil {
+				fmt.Println(err.Error())
+			}
+		} else {
+			fmt.Printf("file %v does not exist ", argument)
+		}
+		//get the current working dir
 		wd, err := os.Getwd()
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		//unzip the file and store it in current working dir
+		util.UnzipSource(fileName, wd)
+		//remove the extention (.zip) from the file name
+		os.Chdir(util.FileNameWithoutExtension(fileName))
+		//update working dir
+		wd, err = os.Getwd()
 		if err != nil {
 			fmt.Println(err.Error())
 		}
